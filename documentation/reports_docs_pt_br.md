@@ -29,33 +29,33 @@ Siga os passos abaixo para configurar o ambiente de monitoramento.
 1. É necessário habilitar o plugin nativo do Prometheus no serviço do Kong para que ele exponha as métricas.
 No arquivo docker-compose.yml do seu projeto Supabase, adicione as seguintes variáveis de ambiente ao serviço do kong:
 
-    kong:
-        environment:
-            KONG_PROMETHEUS_PER_CONSUMER: "false" 
-            KONG_PLUGINS: bundled,prometheus 
-            KONG_ADMIN_LISTEN: 0.0.0.0:8001
+        kong:
+            environment:
+                KONG_PROMETHEUS_PER_CONSUMER: "false" 
+                KONG_PLUGINS: bundled,prometheus 
+                KONG_ADMIN_LISTEN: 0.0.0.0:8001
    
                 
 3. Adicionar os Serviços do Prometheus e Grafana
 Ainda no arquivo docker-compose.yml, adicione os serviços do prometheus e grafana antes da seção final de volumes:
 
-    prometheus:
-    image: prom/prometheus:latest
-    container_name: prometheus
-    restart: unless-stopped
-    volumes:
-        - ./monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
-    ports:
-        - "9090:9090"
-
-    grafana:
-        image: grafana/grafana-oss:latest
-        container_name: grafana
+        prometheus:
+        image: prom/prometheus:latest
+        container_name: prometheus
         restart: unless-stopped
         volumes:
-            - grafana-data:/var/lib/grafana
+            - ./monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
         ports:
-            - "3000:3000"
+            - "9090:9090"
+        
+        grafana:
+            image: grafana/grafana-oss:latest
+            container_name: grafana
+            restart: unless-stopped
+            volumes:
+                - grafana-data:/var/lib/grafana
+            ports:
+                - "3000:3000"
    
        
 5. Criar o Arquivo de Configuração do Prometheus
@@ -316,4 +316,5 @@ Após colar o JSON, clique em Load.
 
 
 O dashboard agora está pronto e pode ser acessado através do menu Dashboards. Ele exibirá as métricas da API Supabase em tempo real, de forma similar à página "Reports" da versão em nuvem.
+
 
