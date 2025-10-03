@@ -102,6 +102,7 @@ Para evitar a criação manual dos painéis, importaremos um dashboard pronto.
     No menu lateral, navegue até Dashboards.
         Clique no botão New e selecione a opção Import.
             Cole o seguinte JSON na caixa de texto "Import via panel json":
+            
                 {
                 "__inputs": [
                     {
@@ -303,5 +304,6 @@ Após colar o JSON, clique em Load.
 
 
 # Conclusão
+
 
 O dashboard agora está pronto e pode ser acessado através do menu Dashboards. Ele exibirá as métricas da API Supabase em tempo real, de forma similar à página "Reports" da versão em nuvem.
