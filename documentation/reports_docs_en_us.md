@@ -28,41 +28,46 @@ Follow the steps below to configure the monitoring environment.
 
 1. It is necessary to enable Prometheus's native plugin in the Kong service to expose the metrics.
 In the Docker-Compose.YML file of your SUPABASE project, add the following environment variables to the service of Kong:
-    kong:
-        environment:
-            KONG_PROMETHEUS_PER_CONSUMER: "false" 
-            KONG_PLUGINS: bundled,prometheus 
-            KONG_ADMIN_LISTEN: 0.0.0.0:8001
-                
-2. Add the services of Prometheus and Grafana
-Still in the Docker-Compose.YML file, add the Prometheus and Graphana services before the final section of volumes:
-    prometheus:
-    image: prom/prometheus:latest
-    container_name: prometheus
-    restart: unless-stopped
-    volumes:
-        - ./monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
-    ports:
-        - "9090:9090"
 
-    grafana:
-        image: grafana/grafana-oss:latest
-        container_name: grafana
+        kong:
+            environment:
+                KONG_PROMETHEUS_PER_CONSUMER: "false" 
+                KONG_PLUGINS: bundled,prometheus 
+                KONG_ADMIN_LISTEN: 0.0.0.0:8001
+                
+3. Add the services of Prometheus and Grafana
+Still in the Docker-Compose.YML file, add the Prometheus and Graphana services before the final section of volumes:
+    
+        prometheus:
+        image: prom/prometheus:latest
+        container_name: prometheus
         restart: unless-stopped
         volumes:
-            - grafana-data:/var/lib/grafana
+            - ./monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
         ports:
-            - "3000:3000"
-       
-3. Create the Prometheus configuration file
+            - "9090:9090"
+    
+        grafana:
+            image: grafana/grafana-oss:latest
+            container_name: grafana
+            restart: unless-stopped
+            volumes:
+                - grafana-data:/var/lib/grafana
+            ports:
+                - "3000:3000"
+           
+5. Create the Prometheus configuration file
 Prometheus needs a configuration file that instructs it on which targets to monitor.
     Create the necessary directory at the root of your SUPABASE project:
+   
         mkdir -p monitoring/prometheus
 
 Create the configuration file within the new directory:
+
         touch monitoring/prometheus/prometheus.yml
 
 Add the following content to the Prometheus.yml file:
+
         global:
             scrape_interval: 15s
 
@@ -72,8 +77,9 @@ Add the following content to the Prometheus.yml file:
             - targets: ['kong:8001']
 
 4. Apply the changes and check the services
-    docker compose down
-    docker compose up -d
+
+        docker compose down
+        docker compose up -d
 
 Check the connection with Prometheus by accessing the panel to your browser. You should be able to see the Kong target as "Up".
 
@@ -307,3 +313,4 @@ After pasting the JSON, click Load.
 
 
 The dashboard is now ready and can be accessed through the Dashboards menu. It will display Supabase API metrics in real time, similar to the "Reports" page in the cloud version.
+
