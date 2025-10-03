@@ -28,14 +28,17 @@ Siga os passos abaixo para configurar o ambiente de monitoramento.
 
 1. É necessário habilitar o plugin nativo do Prometheus no serviço do Kong para que ele exponha as métricas.
 No arquivo docker-compose.yml do seu projeto Supabase, adicione as seguintes variáveis de ambiente ao serviço do kong:
+
     kong:
         environment:
             KONG_PROMETHEUS_PER_CONSUMER: "false" 
             KONG_PLUGINS: bundled,prometheus 
             KONG_ADMIN_LISTEN: 0.0.0.0:8001
+   
                 
-2. Adicionar os Serviços do Prometheus e Grafana
-Ainda no arquivo docker-compose.yml, adicione os serviços do prometheus e grafana antes da seção final de volumes: 
+3. Adicionar os Serviços do Prometheus e Grafana
+Ainda no arquivo docker-compose.yml, adicione os serviços do prometheus e grafana antes da seção final de volumes:
+
     prometheus:
     image: prom/prometheus:latest
     container_name: prometheus
@@ -53,9 +56,11 @@ Ainda no arquivo docker-compose.yml, adicione os serviços do prometheus e grafa
             - grafana-data:/var/lib/grafana
         ports:
             - "3000:3000"
+   
        
-3. Criar o Arquivo de Configuração do Prometheus
+5. Criar o Arquivo de Configuração do Prometheus
 O Prometheus precisa de um arquivo de configuração que o instrua sobre quais alvos (targets) monitorar.
+
     Crie o diretório necessário na raiz do seu projeto Supabase:
         mkdir -p monitoring/prometheus
 
@@ -63,6 +68,7 @@ O Prometheus precisa de um arquivo de configuração que o instrua sobre quais a
         touch monitoring/prometheus/prometheus.yml
 
     Adicione o seguinte conteúdo ao arquivo prometheus.yml:
+   
         global:
             scrape_interval: 15s
 
@@ -70,10 +76,13 @@ O Prometheus precisa de um arquivo de configuração que o instrua sobre quais a
         - job_name: 'kong'
             static_configs:
             - targets: ['kong:8001']
+   
 
-4. Aplicar as Mudanças e Verificar os Serviços
+7. Aplicar as Mudanças e Verificar os Serviços
+
     docker compose down
     docker compose up -d
+   
 
 Verifique a conexão com o Prometheus acessando o painel no seu navegador. Você deve conseguir ver o alvo do Kong como "UP".
 
@@ -307,3 +316,4 @@ Após colar o JSON, clique em Load.
 
 
 O dashboard agora está pronto e pode ser acessado através do menu Dashboards. Ele exibirá as métricas da API Supabase em tempo real, de forma similar à página "Reports" da versão em nuvem.
+
