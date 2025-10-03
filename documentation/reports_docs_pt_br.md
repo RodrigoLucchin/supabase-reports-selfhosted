@@ -62,9 +62,11 @@ Ainda no arquivo docker-compose.yml, adicione os serviços do prometheus e grafa
 O Prometheus precisa de um arquivo de configuração que o instrua sobre quais alvos (targets) monitorar.
 
     Crie o diretório necessário na raiz do seu projeto Supabase:
+   
         mkdir -p monitoring/prometheus
 
     Crie o arquivo de configuração dentro do novo diretório:
+   
         touch monitoring/prometheus/prometheus.yml
 
     Adicione o seguinte conteúdo ao arquivo prometheus.yml:
@@ -80,8 +82,8 @@ O Prometheus precisa de um arquivo de configuração que o instrua sobre quais a
 
 7. Aplicar as Mudanças e Verificar os Serviços
 
-    docker compose down
-    docker compose up -d
+        docker compose down
+        docker compose up -d
    
 
 Verifique a conexão com o Prometheus acessando o painel no seu navegador. Você deve conseguir ver o alvo do Kong como "UP".
@@ -316,5 +318,6 @@ Após colar o JSON, clique em Load.
 
 
 O dashboard agora está pronto e pode ser acessado através do menu Dashboards. Ele exibirá as métricas da API Supabase em tempo real, de forma similar à página "Reports" da versão em nuvem.
+
 
 
