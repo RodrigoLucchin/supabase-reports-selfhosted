@@ -93,8 +93,8 @@ Verifique a conexão com o Prometheus acessando o painel no seu navegador. Você
 Acesse o Grafana pela primeira vez.
 
     URL: http://localhost:3000
-
-    Utilize o login padrão: admin / admin. Será solicitado que você altere a senha no primeiro acesso.
+    
+Utilize o login padrão: admin / admin. Será solicitado que você altere a senha no primeiro acesso.
 
 
 
@@ -318,6 +318,7 @@ Após colar o JSON, clique em Load.
 
 
 O dashboard agora está pronto e pode ser acessado através do menu Dashboards. Ele exibirá as métricas da API Supabase em tempo real, de forma similar à página "Reports" da versão em nuvem.
+
 
 
 
